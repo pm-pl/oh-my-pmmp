@@ -17,12 +17,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: pmmp/setup-php-action@2.0.0
         with:
           php-version: ${{ matrix.php }}
-          ini-values: phar.readonly=0
-          tools: composer
-          coverage: none
+          install-path: "./bin"
+          pm-version-major: "5"
 
       - uses: "ramsey/composer-install@v2"
         with:
@@ -30,7 +29,9 @@ jobs:
           composer-options: "--ignore-platform-reqs --optimize-autoloader"
 
       - name: Build PHAR file
-        run: composer run-script build
+        run: |
+          composer global require humbug/box
+          box compile
 
       - uses: actions/upload-artifact@v3
         with:
