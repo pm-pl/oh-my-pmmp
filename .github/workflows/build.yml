@@ -30,8 +30,8 @@ jobs:
 
       - name: Build PHAR file
         run: |
-          composer global require humbug/box
-          box compile
+          wget -O box.phar "https://github.com/box-project/box/releases/download/4.4.0/box.phar"
+          php ./box.phar compile
 
       - uses: actions/upload-artifact@v3
         with:
